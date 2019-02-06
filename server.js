@@ -9,20 +9,20 @@ var PORT = process.env.PORT || 3000;
 // Create Express app.  Grabbing from express module
 var app = express();
 
+// Set up data parsing
+app.use(express.urlencoded({
+    extended: false 
+}));
+app.use(express.json());
+
 // Set up public folder for static files
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
 
 // Set handlebars as the templating engine.  Connect exphbs with express app
 app.engine("handlebars", exphbs({
     defaultLayout: "main"
 }))
 app.set("view engine", "handlebars");
-
-// Set up data parsing
-app.use(express.urlencoded({
-    extended: true 
-}));
-app.use(express.json());
 
 // Create Express Router
 var router = express.Router();
@@ -55,8 +55,6 @@ mongoose.connect(db, function(error) {
 
 
 
-
-
 // Listen to port
 app.listen(PORT, function() {
     console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
@@ -64,3 +62,6 @@ app.listen(PORT, function() {
     PORT
     );
 });
+
+
+module.exports = app;
