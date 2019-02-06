@@ -1,7 +1,7 @@
 // Require our module
 var express = require("express");
 var exphbs = require("express-handlebars");
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 
 // Set up our ports.  Either environment variable PORT, or 3000 as default.
 var PORT = process.env.PORT || 3000;
@@ -10,7 +10,7 @@ var PORT = process.env.PORT || 3000;
 var app = express();
 
 // Set up public folder for static files
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 // Set handlebars as the templating engine.  Connect exphbs with express app
 app.engine("handlebars", exphbs({
@@ -30,6 +30,9 @@ var router = express.Router();
 // Set request to pass through middleware
 app.use(router);
 
+// Require routes.js file
+require("./config/routes")(app);
+
 // If deployed in prod, use mongod db.  Otherwise, use the local mongoHeadlines db
 var db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
@@ -42,11 +45,11 @@ var db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(db, function(error) {
     // If we cannot connect with Mongoose, log an error
     if (error) {
-        console.log(error);
+        console.log("Cannot connect to Mongoose 🐍 ", error);
     }
     // If we connect with Mongoose, log the success
     else {
-        console.log("Mongoose connection is successful");
+        console.log("Mongoose connection is successful! 🦡");
     }
 });
 
