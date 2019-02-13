@@ -1,3 +1,11 @@
-body {
-    background: blue;
+#navbarNav {
+    margin-left: 2em;
+}
+
+.jumbotron {
+    text-align: center;
+}
+
+.scrape-new {
+    margin-left: 1em;
 }
